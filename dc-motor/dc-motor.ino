@@ -59,34 +59,38 @@ void loop() {
   while(digitalRead(pauseButton) == HIGH);
 
   if(digitalRead(incButton) == HIGH) {
-    vSerial.print("Increase speed from ");
-    vSerial.print(speed);
-    speed += 10;
-    if(speed > 255)
-      speed -= 10;
-    vSerial.print(" to ");
-    vSerial.println(speed);
+    if(paused == false){
+      vSerial.print("Increase speed from ");
+      vSerial.print(speed);
+      speed += 10;
+      if(speed > 255)
+        speed -= 10;
+      vSerial.print(" to ");
+      vSerial.println(speed);
+    }
   }
   while(digitalRead(incButton) == HIGH);
 
   if(digitalRead(decButton) == HIGH) {
-    vSerial.print("Decrease speed from ");
-    vSerial.print(speed);
-    speed -= 10;
-    if(speed < 0)
-      speed = 0;
-    vSerial.print(" to ");
-    vSerial.println(speed);
+    if(paused == false){
+      vSerial.print("Decrease speed from ");
+      vSerial.print(speed);
+      speed -= 10;
+      if(speed < 0)
+        speed = 0;
+      vSerial.print(" to ");
+      vSerial.println(speed);
+    }
   }
   while(digitalRead(decButton) == HIGH);
 
   delay(20);
   if(dir == CLOCKWISE) {
-    digitalWrite(in1, HIGH);
-    digitalWrite(in2, LOW);
-  } else {
     digitalWrite(in1, LOW);
     digitalWrite(in2, HIGH);
+  } else {
+    digitalWrite(in1, HIGH);
+    digitalWrite(in2, LOW);
   } 
   analogWrite(en, speed);
 }
