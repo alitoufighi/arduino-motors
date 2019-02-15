@@ -5,33 +5,33 @@
 #define servoPin 6
 
 SoftwareSerial vSerial(12, 13);
-Servo myservo;
+Servo servo;  // our servo motor has range -180 and +180.
 
 int pos;
 
 void setup() {
   pos = 90;
   vSerial.begin(9600);
-  myservo.attach(servoPin);
+  servo.attach(servoPin);
   pinMode(clockwiseButton, INPUT);
   pinMode(antiClockwiseButton, INPUT);
-  myservo.write(pos);
+  servo.write(pos);
 }
 
 void loop() {
   if(digitalRead(clockwiseButton) == HIGH){
     vSerial.println("Clockwise");
-    pos += 4;
+    pos += 1;
     pos = pos % 180;
-    myservo.write(pos);
+    servo.write(pos);
   }
   while(digitalRead(clockwiseButton) == HIGH);
   
   if(digitalRead(antiClockwiseButton) == HIGH){
     vSerial.println("Anti Clockwise");
-    pos -= 4;
+    pos -= 1;
     pos = pos % 180;
-    myservo.write(pos);
+    servo.write(pos);
   }
   while(digitalRead(antiClockwiseButton) == HIGH);
   
