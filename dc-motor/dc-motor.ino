@@ -36,7 +36,11 @@ void setup() {
 
 void loop() {
   if(digitalRead(rotButton) == HIGH) {
-      vSerial.println("Clicked");
+      vSerial.print("Changing Rotate Direction From ");
+      if(dir == CLOCKWISE)
+        vSerial.println("Clockwise to Anti-Clockwise");
+      else
+        vSerial.println("Anti-Clockwise to Clockwise");
       dir = !dir;
   }
   while(digitalRead(rotButton) == HIGH);
@@ -44,24 +48,35 @@ void loop() {
   if(digitalRead(pauseButton) == HIGH) {
     paused = !paused;
     if(paused == true) {
+      vSerial.println("Paused");
       lastSpeed = speed;
       speed = 0;
-    } else
+    } else {
+      vSerial.println("Resumed");
       speed = lastSpeed;
+    }
   }
   while(digitalRead(pauseButton) == HIGH);
 
   if(digitalRead(incButton) == HIGH) {
+    vSerial.print("Increase speed from ");
+    vSerial.print(speed);
     speed += 10;
     if(speed > 255)
       speed -= 10;
+    vSerial.print(" to ");
+    vSerial.println(speed);
   }
   while(digitalRead(incButton) == HIGH);
 
-  if(digitalRead(decButton) == HIGH) {  
+  if(digitalRead(decButton) == HIGH) {
+    vSerial.print("Decrease speed from ");
+    vSerial.print(speed);
     speed -= 10;
     if(speed < 0)
       speed = 0;
+    vSerial.print(" to ");
+    vSerial.println(speed);
   }
   while(digitalRead(decButton) == HIGH);
 
